@@ -61,9 +61,11 @@ sudo ufw allow 5432/tcp
 sudo ufw allow 5432/udp
 ```
 # STORAGE
-create db called (pb) with username (postgres) and password (pbtest123)
-execute psql  -U postgres -h 127.0.0.1 --password pb;
 ```
+create db called (pb) with username (postgres) and password (pbtest123)
+
+execute psql  -U postgres -h 127.0.0.1 --password pb;
+
 CREATE TABLE TRADE_F(
    id SERIAL PRIMARY KEY,
    businessid VARCHAR  NULL,
