@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "988825c7-db74-4c23-9bae-2e134733ba53",
+		"name": "DEVS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TIKTAK",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://192.168.8.204:5000/create?date=05-29-2024&status=on&amount=100000&businessid=12000",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"8",
+						"204"
+					],
+					"port": "5000",
+					"path": [
+						"create"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "05-29-2024"
+						},
+						{
+							"key": "status",
+							"value": "on"
+						},
+						{
+							"key": "amount",
+							"value": "100000"
+						},
+						{
+							"key": "businessid",
+							"value": "12000"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "TIKTAK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.8.204:5000/create?date=05-29-2025&status=on&amount=60000&businessid=12000",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"8",
+								"204"
+							],
+							"port": "5000",
+							"path": [
+								"create"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "05-29-2025"
+								},
+								{
+									"key": "status",
+									"value": "on"
+								},
+								{
+									"key": "amount",
+									"value": "60000"
+								},
+								{
+									"key": "businessid",
+									"value": "12000"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "41"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/1.0.1 Python/2.7.17"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Sep 2022 07:10:33 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"record inserted sucessfully\"\n}"
+				}
+			]
+		}
+	]
+}
