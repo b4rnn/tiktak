@@ -36,8 +36,9 @@ sudo apt-get install python3-dev python3-numpy python3-pip
 # PORTS
 ```
 redis --6379
-mongodb --27107
-uwsgi --5010
+postgres --5432
+flask --5000
+elasticsearch --9200
 ```
 # DEPLOYMENT
 *Refers to [1.0 CODES]*
