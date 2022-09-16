@@ -33,21 +33,22 @@ sudo apt-get install python3-dev python3-numpy python3-pip
 #upgrade
     pip3 install --upgrade setuptools
 ```
-# BROADCAST
+# PORTS
 ```
-cd DATABASE 
+redis --6379
+mongodb --27107
+uwsgi --5010
+```
+# DEPLOYMENT
+*Refers to [1.0 CODES]*
+```
+#Download the CODES FOLDER 
+cd CODES
 pip3 install -r requirements.txt
-sudo vi /etc/nging/sites-enabled/default
 
-#paste text[from default]
-    
-#test nginx server
-    sudo nginx -t
-    sudo systemctl restart nginx
-    sudo systemctl status nginx
-
-cd back to   projcet FOLDER 
-    python3 app.py
-
-#test using postman (127.0.0.1:5007)
+```
+*START / STOP PROJECT*
+```
+#CD CODES/
+python app.py
 ```
