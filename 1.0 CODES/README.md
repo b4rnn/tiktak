@@ -47,6 +47,8 @@ elasticsearch --9200
 cd CODES
 pip3 install -r requirements.txt
 
+update server ip in postman collection
+
 ```
 *START / STOP PROJECT*
 ```
