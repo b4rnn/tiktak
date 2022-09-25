@@ -79,7 +79,38 @@ CREATE TABLE TRAFFIC(
    car_count INT  NULL,
    car_route VARCHAR  NULL,
    car_speed INT  NULL,
+   car_image BLOB NULL,
+   detection_time VARCHAR  NULL,
    car_heat_signal VARCHAR  NULL,
    car_number_plate VARCHAR  NULL
 );
+
+CREATE TABLE PARKING(
+   id SERIAL PRIMARY KEY,
+   camera_id VARCHAR  NULL,
+   car_model VARCHAR NULL,
+   car_color VARCHAR  NULL,
+   car_make VARCHAR  NULL,
+   car_location VARCHAR NULL,
+   car_count INT  NULL,
+   car_image BLOB NULL,
+   detection_time VARCHAR  NULL,
+   car_number_plate VARCHAR  NULL
+);
+
+CREATE TABLE PERSON(
+   id SERIAL PRIMARY KEY,
+   camera_id VARCHAR  NULL,
+   person_age VARCHAR NULL,
+   person_gender VARCHAR  NULL,
+   person_race VARCHAR  NULL,
+   person_religion VARCHAR NULL,
+   person_location INT  NULL,
+   detection_time VARCHAR  NULL,
+   person_emotion INT  NULL,
+   person_face BLOB  NULL,
+   person_count VARCHAR  NULL,
+   person_item VARCHAR  NULL
+);
+
 ```
