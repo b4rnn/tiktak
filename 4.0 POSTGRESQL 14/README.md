@@ -64,10 +64,13 @@ sudo ufw allow 5432/udp
 ```
 sudo -u postgres psql
 
-createuser testuser
-create db called (gala) with username (postgres) and password (pbtest123)
+ALTER USER postgres PASSWORD 'dataLake';
 
-execute psql  -U postgres -h 127.0.0.1 --password pb;
+#create db called (gala) with username (postgres) and password (dataLake)
+
+CREATE DATABASE gala;
+
+execute psql  -U postgres -h 127.0.0.1 --password gala;
 
 CREATE TABLE TRAFFIC(
    id SERIAL PRIMARY KEY,
