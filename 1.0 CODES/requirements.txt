@@ -7,5 +7,5 @@ simplejson
 python-dateutil
 redis
 json
-import requests
-import psycopg2
+requests
+psycopg2
