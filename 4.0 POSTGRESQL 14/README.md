@@ -113,4 +113,15 @@ CREATE TABLE PERSON(
    person_item VARCHAR  NULL
 );
 
+CREATE TABLE WEATHER(
+   id SERIAL PRIMARY KEY,
+   sensor_id VARCHAR  NULL,
+   weather_status VARCHAR NULL,
+   weather_year VARCHAR  NULL,
+   weather_time VARCHAR  NULL,
+   weather_day VARCHAR NULL,
+   weather_month VARCHAR  NULL,
+   weather_location VARCHAR  NULL
+);
+
 ```
