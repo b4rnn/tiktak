@@ -124,4 +124,15 @@ CREATE TABLE WEATHER(
    weather_location VARCHAR  NULL
 );
 
+CREATE TABLE GSM(
+   id SERIAL PRIMARY KEY,
+   sensor_id VARCHAR  NULL,
+   sms VARCHAR NULL,
+   imei VARCHAR  NULL,
+   latitude VARCHAR  NULL,
+   longitude VARCHAR NULL,
+   device VARCHAR  NULL,
+   distance VARCHAR  NULL
+);
+
 ```
