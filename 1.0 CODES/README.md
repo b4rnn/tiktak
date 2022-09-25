@@ -18,6 +18,7 @@ sudo apt-get install python3-dev python3-numpy python3-pip
 #update & upgrade
     sudo apt update
     sudo apt install software-properties-common
+    sudo apt install postgresql-server-dev-all
 #repo
     sudo add-apt-repository ppa:deadsnakes/ppa
     Press [ENTER] to continue or Ctrl-c to cancel adding it.
