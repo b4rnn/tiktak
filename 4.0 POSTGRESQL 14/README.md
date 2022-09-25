@@ -62,16 +62,24 @@ sudo ufw allow 5432/udp
 ```
 # STORAGE
 ```
-create db called (pb) with username (postgres) and password (pbtest123)
+sudo -u postgres psql
+
+createuser testuser
+create db called (gala) with username (postgres) and password (pbtest123)
 
 execute psql  -U postgres -h 127.0.0.1 --password pb;
 
-CREATE TABLE TRADE_F(
+CREATE TABLE TRAFFIC(
    id SERIAL PRIMARY KEY,
-   businessid VARCHAR  NULL,
-   amount VARCHAR NULL,
-   date VARCHAR  NULL,
-   status VARCHAR  NULL,
-   timestamp VARCHAR NULL
+   camera_id VARCHAR  NULL,
+   car_model VARCHAR NULL,
+   car_color VARCHAR  NULL,
+   car_make VARCHAR  NULL,
+   car_location VARCHAR NULL,
+   car_count INT  NULL,
+   car_route VARCHAR  NULL,
+   car_speed INT  NULL,
+   car_heat_signal VARCHAR  NULL,
+   car_number_plate VARCHAR  NULL
 );
 ```
