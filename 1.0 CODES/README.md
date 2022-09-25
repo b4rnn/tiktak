@@ -25,6 +25,7 @@ sudo apt-get install python3-dev python3-numpy python3-pip
     sudo apt install python3.7
 #check
     python3.7 --version
+    sudo apt install libpq-dev python3-dev
 ```
 # pip 
 ```
@@ -32,6 +33,7 @@ sudo apt-get install python3-dev python3-numpy python3-pip
     python3 -m pip install --upgrade pip
 #upgrade
     pip3 install --upgrade setuptools
+    
 ```
 # PORTS
 ```
