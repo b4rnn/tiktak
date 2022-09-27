@@ -133,7 +133,6 @@ CREATE TABLE WEATHER(
    timestamp VARCHAR  NULL,
    sensor_id VARCHAR  NULL,
    weather_status VARCHAR NULL,
-   weather_year VARCHAR  NULL,
    weather_time VARCHAR  NULL,
    weather_day VARCHAR NULL,
    weather_month VARCHAR  NULL,
