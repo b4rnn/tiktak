@@ -32,6 +32,7 @@
             "table": "traffic",
             "columns": [
                 "camera_id",
+                "timestamp",
                 "car_model",
                 "car_color",
                 "car_make",
@@ -40,6 +41,9 @@
                 "car_route",
                 "car_speed",
                 "detection_time",
+                "detection_day",
+                "detection_month",
+                "detection_year",
                 "car_heat_signal",
                 "car_number_plate"
             ]
@@ -78,12 +82,17 @@
             "table": "parking",
             "columns": [
                 "camera_id",
+                "timestamp",
                 "car_model",
                 "car_color",
                 "car_make",
                 "car_location",
                 "car_count",
-                "car_number_plate"
+                "car_number_plate",
+                "detection_time",
+                "detection_day",
+                "detection_month",
+                "detection_year"
             ]
         }
     },
@@ -120,6 +129,7 @@
             "table": "person",
             "columns": [
                 "camera_id",
+                "timestamp",
                 "person_age",
                 "person_gender",
                 "person_race",
@@ -127,7 +137,11 @@
                 "detection_time",
                 "person_emotion",
                 "person_count",
-                "person_item"
+                "person_item",
+                "detection_time",
+                "detection_day",
+                "detection_month",
+                "detection_year"
             ]
         }
     },
@@ -164,6 +178,7 @@
             "table": "weather",
             "columns": [
                 "sensor_id",
+                "timestamp",
                 "weather_status",
                 "weather_year",
                 "weather_time",
@@ -206,8 +221,12 @@
             "table": "gsm",
             "columns": [
                 "sensor_id",
+                "timestamp",
                 "sms",
                 "imei",
+                "day",
+                "month", 
+                "year",
                 "latitude",
                 "longitude",
                 "device",
