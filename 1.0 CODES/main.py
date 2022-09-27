@@ -3,10 +3,11 @@ import re
 import json
 import time
 import redis
+import queue
 import psycopg2
 import requests
 from time import sleep
-from Queue import Queue
+#from Queue import Queue
 from psycopg2 import Error
 from threading import Thread
 from datetime import datetime
@@ -15,13 +16,13 @@ from flask import Flask, render_template, request, url_for, redirect
 
 app = Flask(__name__)
 
-queue = Queue()
+#queue = Queue()
 
 def get_db_connection():
     conn = psycopg2.connect(host='localhost',
-                            database='pb',
+                            database='gala',
                             user='postgres',
-                            password='pbtest123')
+                            password='dataLake')
     return conn
 
 @app.route('/')
@@ -29,7 +30,7 @@ def index():
     conn = get_db_connection()
     cur = conn.cursor()
     
-    end_date=str(request.args.get('end_date', None))
+    end_date=str(data['end_date'])
     return {}
 
 def pubsub_task(i, q):
@@ -52,39 +53,33 @@ def pubsub_task(i, q):
                 except TypeError:
                     print('TypeError')
             #_response_List = [i for n, i in enumerate(_response_list) if i not in _response_list[n + 1:]]
-            print(source_data['businessid'])
-            r.publish(source_data['businessid'], json.dumps(source_data))
+            print(source_data['camera_id'])
+            r.publish(source_data['camera_id'], json.dumps(source_data))
         q.task_done()
         
 
-@app.route('/create/', methods=('GET', 'POST'))
+@app.route('/traffic/',methods=['GET'])
 def create():
     #if request.data:
     #if request.is_json:
     data = request.get_json()
-    print(request.data)
-    print(str(request.args.get('date', None)))
+    print(data['model'])
     res = {}
     sentence = "%.20f" % time.time()
     time_stamp = re.sub('(?<=\d)[,.](?=\d)','',sentence)
     try:
         conn = get_db_connection()
-
         # Open a cursor to perform database operations
-        cur = conn.cursor()
-
-        cur.execute('INSERT INTO trade_f (timestamp, date, status, amount, businessid)'
-                    'VALUES (%s, %s, %s, %s, %s)',
-                    (str(time_stamp),
-                    str(request.args.get('date', None)),
-                    str(request.args.get('status', None)),
-                    str(request.args.get('amount', None)),
-                    str(request.args.get('businessid', None)))
-                    )
+        cur = conn.cursor()  
+        cur.execute('INSERT INTO traffic (timestamp,camera_id, car_model, car_color, car_make, car_location, car_count, car_route, car_speed, detection_time, car_heat_signal, car_number_plate, detection_day, detection_month, detection_year)'
+                    'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                    (str(time_stamp),str(data['id']),str(data['model']),str(data['color']),str(data['make']),str(data['location']),
+                    str(data['count']),str(data['route']),str(data['speed']),str(data['time']),str(data['signal']),
+                    str(data['plate']),str(data['day']),str(data['month']),str(data['year'])))
 
         conn.commit()
         
-        queue.put(time_stamp)
+        #queue.put(time_stamp)
         status = "record inserted sucessfully"
         res ={"status":status}
     except (Exception, Error) as error:
@@ -95,11 +90,10 @@ def create():
         if (conn):
             cur.close()
             conn.close()
-    
     return res
 
 if __name__ == "__main__":
     thread = Thread(target=pubsub_task , args=(1, queue, ))
     thread.daemon = True
     thread.start()
-    app.run(host='0.0.0.0',port=5000,debug=False)
+    app.run(host='127.0.0.1',port=5000,debug=True)
