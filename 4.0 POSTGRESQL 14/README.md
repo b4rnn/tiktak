@@ -101,7 +101,7 @@ CREATE TABLE PARKING(
    car_make VARCHAR  NULL,
    car_location VARCHAR NULL,
    car_count INT  NULL,
-   car_image BLOB NULL,
+   car_image VARCHAR NULL,
    detection_time VARCHAR  NULL,
    detection_day VARCHAR  NULL,
    detection_month VARCHAR  NULL,
@@ -122,8 +122,8 @@ CREATE TABLE PERSON(
    detection_day VARCHAR  NULL,
    detection_month VARCHAR  NULL,
    detection_year VARCHAR  NULL,
-   person_emotion INT  NULL,
-   person_face BLOB  NULL,
+   person_emotion VARCHAR  NULL,
+   person_face VARCHAR  NULL,
    person_count VARCHAR  NULL,
    person_item VARCHAR  NULL
 );
