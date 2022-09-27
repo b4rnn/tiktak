@@ -74,6 +74,7 @@ execute psql  -U postgres -h 127.0.0.1 --password gala;
 
 CREATE TABLE TRAFFIC(
    id SERIAL PRIMARY KEY,
+   timestamp VARCHAR  NULL,
    camera_id VARCHAR  NULL,
    car_model VARCHAR NULL,
    car_color VARCHAR  NULL,
@@ -82,14 +83,18 @@ CREATE TABLE TRAFFIC(
    car_count INT  NULL,
    car_route VARCHAR  NULL,
    car_speed INT  NULL,
-   car_image BLOB NULL,
+   car_image VARCHAR NULL,
    detection_time VARCHAR  NULL,
+   detection_day VARCHAR  NULL,
+   detection_month VARCHAR  NULL,
+   detection_year VARCHAR  NULL,
    car_heat_signal VARCHAR  NULL,
    car_number_plate VARCHAR  NULL
 );
 
 CREATE TABLE PARKING(
    id SERIAL PRIMARY KEY,
+   timestamp VARCHAR  NULL,
    camera_id VARCHAR  NULL,
    car_model VARCHAR NULL,
    car_color VARCHAR  NULL,
@@ -98,11 +103,15 @@ CREATE TABLE PARKING(
    car_count INT  NULL,
    car_image BLOB NULL,
    detection_time VARCHAR  NULL,
+   detection_day VARCHAR  NULL,
+   detection_month VARCHAR  NULL,
+   detection_year VARCHAR  NULL,
    car_number_plate VARCHAR  NULL
 );
 
 CREATE TABLE PERSON(
    id SERIAL PRIMARY KEY,
+   timestamp VARCHAR  NULL,
    camera_id VARCHAR  NULL,
    person_age VARCHAR NULL,
    person_gender VARCHAR  NULL,
@@ -110,6 +119,9 @@ CREATE TABLE PERSON(
    person_religion VARCHAR NULL,
    person_location INT  NULL,
    detection_time VARCHAR  NULL,
+   detection_day VARCHAR  NULL,
+   detection_month VARCHAR  NULL,
+   detection_year VARCHAR  NULL,
    person_emotion INT  NULL,
    person_face BLOB  NULL,
    person_count VARCHAR  NULL,
@@ -118,20 +130,26 @@ CREATE TABLE PERSON(
 
 CREATE TABLE WEATHER(
    id SERIAL PRIMARY KEY,
+   timestamp VARCHAR  NULL,
    sensor_id VARCHAR  NULL,
    weather_status VARCHAR NULL,
    weather_year VARCHAR  NULL,
    weather_time VARCHAR  NULL,
    weather_day VARCHAR NULL,
    weather_month VARCHAR  NULL,
+   weather_year VARCHAR  NULL,
    weather_location VARCHAR  NULL
 );
 
 CREATE TABLE GSM(
    id SERIAL PRIMARY KEY,
+   timestamp VARCHAR  NULL,
    sensor_id VARCHAR  NULL,
    sms VARCHAR NULL,
    imei VARCHAR  NULL,
+   day VARCHAR NULL,
+   month VARCHAR  NULL,
+   year VARCHAR  NULL,
    latitude VARCHAR  NULL,
    longitude VARCHAR NULL,
    device VARCHAR  NULL,
