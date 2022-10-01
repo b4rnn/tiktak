@@ -31,7 +31,7 @@ redis-server --version
 ```
 # CONFIG 
 ```
-sudo vi /etc/redis/redis.conf
+sudo nano /etc/redis/redis.conf
 #REMOTE CONNECTION
    [BEFORE] bind 127.0.0.1
    [AFTER]  bind 0.0.0.0
