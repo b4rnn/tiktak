@@ -1,11 +1,14 @@
 # SETUP
 ```
-    pip3 install pgsync
+    sudo apt-get install kibana
 ```
-# INDEX DB
+# CONFIG
 ```
-    bootstrap --config /PATH_TO/schema.json
-    pgsync
+   sudo nano /etc/kibana/kibana.yml
+   #INDEXER
+    elasticsearch.hosts: ["http://localhost:9200"]
+   #PORT
+   server.port: 5601
 ```
 # LIST indices [ELASTICSEARCH]
 ```
