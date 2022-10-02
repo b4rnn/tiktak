@@ -31,13 +31,29 @@ elasticsearch --version
 ```
 ## 1.7 Config 
 ```sh
-sudo nano sudo nano /etc/elasticsearch/elasticsearch.yml
+sudo nano /etc/elasticsearch/elasticsearch.yml
 #NETWORK CONFIGURATION
     network.host: 0.0.0.0
     http.port: 9200
     transport.host: localhost
     transport.tcp.port: 9300
 
+sudo nano /etc/elasticsearch/jvm.options
+#MEMORY CONFIGURATIONS
+## IMPORTANT: JVM heap size
+################################################################
+##
+## The heap size is automatically configured by Elasticsearch
+## based on the available memory in your system and the roles
+## each node is configured to fulfill. If specifying heap is
+## required, it should be done through a file in jvm.options.d,
+## and the min and max should be set to the same value. For
+## example, to set the heap to 4 GB, create a new file in the
+## jvm.options.d directory containing these lines:
+## see https://medium.com/trendyol-tech/how-to-configure-elasticsearch-heap-size-to-change-max-memory-size-cb9ca016ce06
+#For more information
+-Xms4g 
+-Xmx4g
 #RESTART
    sudo systemctl restart elasticsearch 
 #STATUS
