@@ -189,6 +189,8 @@
             "table": "weather",
             "columns": [
                 "sensor_id",
+                "latitude",
+                "longitude",
                 "timestamp",
                 "weather_status",
                 "weather_year",
