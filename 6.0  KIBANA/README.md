@@ -15,6 +15,8 @@
     sudo systemctl start kibana
    #STOP
     sudo systemctl stop kibana
+   #STATUS
+    sudo systemctl stop kibana
    #RESTART
     sudo systemctl restart kibana
 ```
