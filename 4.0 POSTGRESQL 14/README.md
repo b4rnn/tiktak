@@ -169,3 +169,8 @@ CREATE TABLE GSM(
 );
 
 ```
+# libpqxx-dev
+```
+sudo apt-get update -y
+sudo apt-get install -y libpqxx-dev
+```
