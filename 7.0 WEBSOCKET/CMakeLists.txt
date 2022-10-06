@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.6)
-SET(PROJECT_NAME VID)
+SET(PROJECT_NAME GALA)
 PROJECT(${PROJECT_NAME})
 FIND_PACKAGE(OpenCV 4 REQUIRED)
 SET(CMAKE_CXX_STANDARD 17)
@@ -14,13 +14,8 @@ SET(CMAKE_CXX_FLAGS_DEBUG  "-g")
 INCLUDE_DIRECTORIES(${OpenCV_INCLUDE_DIRS}
         ${PROJECT_SOURCE_DIR}/include)
 
-ADD_LIBRARY(facedetect 
-        include/MTCNN/mtcnn_opencv.cpp
-        include/FacePreprocess.h
-        include/MTCNN/mtcnn_opencv.hpp
-        include/MTCNN/mtcnn.cpp
-        include/MTCNN/mtcnn.hpp
-        stream.hpp
+ADD_LIBRARY(
+        gala.hpp
         )
 
 find_package(Eigen3 REQUIRED)
@@ -64,7 +59,4 @@ endif()
 
 ADD_EXECUTABLE(${PROJECT_NAME} main.cpp)
 
-# Link your application with OpenCV libraries
-#target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS})
-
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${OpenCV_LIBS} facedetect -lavformat -lavcodec -lswscale -lz -lavutil -ltbb -lcurl  -lredis++ -lhiredis -lstdc++fs -lpthread -lboost_thread -lboost_system -lrt -lpqxx -lpq)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${OpenCV_LIBS} -lz -lavutil -ltbb -lcurl  -lredis++ -lhiredis -lstdc++fs -lpthread -lboost_thread -lboost_system -lrt -lpqxx -lpq)
