@@ -37,12 +37,26 @@ int main()
     };
 
   //threads
-  thread t1(std::thread(CAMERAS, std::ref(cam_streamer),  std::ref(capture_source) ));
-  thread t2(std::thread(AIMODEL, std::ref(cam_streamer),  std::ref(capture_source) ));
-  thread t3(std::thread(SCREENS, std::ref(cam_streamer),  std::ref(capture_source) ));
+  thread t1(std::thread(PUB_GSM, std::ref(cam_streamer),  std::ref(capture_source) ));
+  thread t2(std::thread(SUB_GSM, std::ref(cam_streamer),  std::ref(capture_source) ));
+  thread t3(std::thread(PUB_PERSON, std::ref(cam_streamer),  std::ref(capture_source) ));
+  thread t4(std::thread(SUB_PERSON, std::ref(cam_streamer),  std::ref(capture_source) ));
+  thread t5(std::thread(PUB_PARKING, std::ref(cam_streamer),  std::ref(capture_source) ));
+  thread t6(std::thread(SUB_PARKING, std::ref(cam_streamer),  std::ref(capture_source) ));
+  thread t7(std::thread(PUB_WEATHER, std::ref(cam_streamer),  std::ref(capture_source) ));
+  thread t8(std::thread(SUB_WEATHER, std::ref(cam_streamer),  std::ref(capture_source) ));
+  thread t9(std::thread(PUB_TRAFFIC, std::ref(cam_streamer),  std::ref(capture_source) ));
+  thread t10(std::thread(SUB_TRAFFIC, std::ref(cam_streamer),  std::ref(capture_source) ));
   t1.join();
   t2.join();
   t3.join();
+  t4.join();
+  t5.join();
+  t6.join();
+  t7.join();
+  t8.join();
+  t9.join();
+  t10.join();
 
   //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   return 0;
