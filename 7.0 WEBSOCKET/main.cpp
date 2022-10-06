@@ -14,15 +14,22 @@ VideoStreamer cam_streamer(capture_source);
 
 int main()
 {
-
-    auto CAMERAS = [](VideoStreamer &cam_streamer , vector<string> capture_source){
+  
+    auto PUB_GSM = [](VideoStreamer &cam_streamer , vector<string> capture_source){
 
         while (true){
  
         }
     };
 
-    auto AIMODEL = [](VideoStreamer &cam_streamer , vector<string> capture_source){
+    auto SUB_GSM = [](VideoStreamer &cam_streamer , vector<string> capture_source){
+
+        while (true){
+ 
+        }
+    };
+
+    auto PUB_PERSON = [](VideoStreamer &cam_streamer , vector<string> capture_source){
 
         while(true){
 
@@ -30,23 +37,66 @@ int main()
         
     };
 
-    auto SCREENS = [](VideoStreamer &cam_streamer , vector<string> capture_source){
+    auto SUB_PERSON = [](VideoStreamer &cam_streamer , vector<string> capture_source){
+
+        while(true){
+
+        }
+        
+    };
+
+    auto PUB_PARKING = [](VideoStreamer &cam_streamer , vector<string> capture_source){
+
+        while(true){
+
+        }
+        
+    };
+
+    auto SUB_PARKING = [](VideoStreamer &cam_streamer , vector<string> capture_source){
+
+        while(true){
+
+        }
+        
+    };
+
+    auto PUB_WEATHER = [](VideoStreamer &cam_streamer , vector<string> capture_source){
         while(true){
  
         }
     };
 
+    auto SUB_WEATHER = [](VideoStreamer &cam_streamer , vector<string> capture_source){
+        while(true){
+ 
+        }
+    };
+
+    auto PUB_TRAFFIC = [](VideoStreamer &cam_streamer , vector<string> capture_source){
+        while(true){
+ 
+        }
+    };
+
+    auto SUB_TRAFFIC = [](VideoStreamer &cam_streamer , vector<string> capture_source){
+        while(true){
+ 
+        }
+    };
+    
   //threads
+  /*
   thread t1(std::thread(PUB_GSM, std::ref(cam_streamer),  std::ref(capture_source) ));
   thread t2(std::thread(SUB_GSM, std::ref(cam_streamer),  std::ref(capture_source) ));
-  thread t3(std::thread(PUB_PERSON, std::ref(cam_streamer),  std::ref(capture_source) ));
-  thread t4(std::thread(SUB_PERSON, std::ref(cam_streamer),  std::ref(capture_source) ));
-  thread t5(std::thread(PUB_PARKING, std::ref(cam_streamer),  std::ref(capture_source) ));
-  thread t6(std::thread(SUB_PARKING, std::ref(cam_streamer),  std::ref(capture_source) ));
-  thread t7(std::thread(PUB_WEATHER, std::ref(cam_streamer),  std::ref(capture_source) ));
-  thread t8(std::thread(SUB_WEATHER, std::ref(cam_streamer),  std::ref(capture_source) ));
-  thread t9(std::thread(PUB_TRAFFIC, std::ref(cam_streamer),  std::ref(capture_source) ));
-  thread t10(std::thread(SUB_TRAFFIC, std::ref(cam_streamer),  std::ref(capture_source) ));
+  thread t3(std::thread(PUB_PERSON,std::ref(cam_streamer),std::ref(capture_source) ));
+  thread t4(std::thread(SUB_PERSON,std::ref(cam_streamer),std::ref(capture_source) ));
+  thread t5(std::thread(PUB_PARKING,std::ref(cam_streamer),std::ref(capture_source) ));
+  thread t6(std::thread(SUB_PARKING,std::ref(cam_streamer),std::ref(capture_source) ));
+  thread t7(std::thread(PUB_WEATHER,std::ref(cam_streamer),std::ref(capture_source) ));
+  thread t8(std::thread(SUB_WEATHER,std::ref(cam_streamer),std::ref(capture_source) ));
+  thread t9(std::thread(PUB_TRAFFIC,std::ref(cam_streamer),std::ref(capture_source) ));
+  thread t10(std::thread(SUB_TRAFFIC,std::ref(cam_streamer),std::ref(capture_source)));
   t1.join();
   t2.join();
   t3.join();
@@ -57,7 +107,11 @@ int main()
   t8.join();
   t9.join();
   t10.join();
-
+  */
+  thread t1(std::thread(PUB_TRAFFIC,std::ref(cam_streamer),std::ref(capture_source) ));
+  thread t2(std::thread(SUB_TRAFFIC,std::ref(cam_streamer),std::ref(capture_source) ));
+  t1.join();
+  t2.join();
   //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   return 0;
 
