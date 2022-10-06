@@ -20,10 +20,7 @@ ADD_LIBRARY(facedetect
         include/MTCNN/mtcnn_opencv.hpp
         include/MTCNN/mtcnn.cpp
         include/MTCNN/mtcnn.hpp
-        Blob.h
-        Blob.cpp
         stream.hpp
-        stream.cpp
         )
 
 find_package(Eigen3 REQUIRED)
@@ -32,10 +29,6 @@ find_package(Eigen3 REQUIRED)
 
 include_directories(${EIGEN3_INCLUDE_DIRS})
 
-include_directories("/usr/local/include/mongocxx/v_noabi")
-include_directories("/usr/local/include/libmongoc-1.0")
-include_directories("/usr/local/include/bsoncxx/v_noabi")
-include_directories("/usr/local/include/libbson-1.0")
 include_directories("/usr/local/include/libiconv")
 
 find_package(gflags REQUIRED)
@@ -69,17 +62,9 @@ if(NOT Iconv_IS_BUILT_IN)
   set(ICONV_LIB Iconv::Iconv)
 endif()
 
-#ADD_EXECUTABLE(${PROJECT_NAME} main.cpp)
-
-#ADD_EXECUTABLE(${PROJECT_NAME} cc.cpp)
-#ADD_EXECUTABLE(${PROJECT_NAME} gan.cpp)
-#ADD_EXECUTABLE(${PROJECT_NAME} vehicle_counting.cpp)
-ADD_EXECUTABLE(${PROJECT_NAME} its.cpp)
-
-# Declare the executable target built from your sources
-#add_executable(${PROJECT_NAME} car-make-model-classifier-yolo3-cpp.cpp)
+ADD_EXECUTABLE(${PROJECT_NAME} main.cpp)
 
 # Link your application with OpenCV libraries
 #target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS})
 
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${OpenCV_LIBS} facedetect -lavformat -lavcodec -lswscale -lz -lavutil -ltbb -lcurl  -lredis++ -lhiredis -lstdc++fs -lpthread -lboost_thread -lboost_system -lmongocxx -lbsoncxx -lrt)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${OpenCV_LIBS} facedetect -lavformat -lavcodec -lswscale -lz -lavutil -ltbb -lcurl  -lredis++ -lhiredis -lstdc++fs -lpthread -lboost_thread -lboost_system -lrt -lpqxx -lpq)
