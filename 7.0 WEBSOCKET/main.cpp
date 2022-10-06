@@ -1,4 +1,4 @@
-#include "stream.hpp"
+#include "gala.hpp"
 
 vector<string> capture_source = {
     "/home/dellpb/Pictures/3dp/data/video/1.mp4",
@@ -8,13 +8,31 @@ vector<string> capture_source = {
     "/home/dellpb/Pictures/3dp/data/video/5.mp4"
 };
 
+class XDELETE
+{
+  public :
+    Redis *_redis = new Redis("tcp://127.0.0.1:6379?keep_alive=true&socket_timeout=100ms&connect_timeout=100ms");
+    void operator()(string &msg) const
+    { 
+        /*
+        int pos = msg.find(":");
+        std::string key = msg.substr(0 , pos);
+        std::string id = msg.substr(pos + 1);
+        std::cout << "Key " << key <<" "<<"Id " << id << "\n";
+        _redis->xdel(key, id);
+        */
+    }
+};
 
 std::vector<cv::Mat> _vecMat;
 VideoStreamer cam_streamer(capture_source);
 
 int main()
-{
-  
+{   
+    
+    boost::signals2::signal<void(string &msg)> sig;
+    sig.connect(XDELETE());
+
     auto PUB_GSM = [](VideoStreamer &cam_streamer , vector<string> capture_source){
 
         while (true){
@@ -84,7 +102,7 @@ int main()
  
         }
     };
-    
+
   //threads
   /*
   thread t1(std::thread(PUB_GSM, std::ref(cam_streamer),  std::ref(capture_source) ));
@@ -108,10 +126,16 @@ int main()
   t9.join();
   t10.join();
   */
+  XDELETE xdelete;
+  string s="DELETE USED TRAFIC FILES";
+  boost::thread t3((XDELETE()),boost::move(s));
   thread t1(std::thread(PUB_TRAFFIC,std::ref(cam_streamer),std::ref(capture_source) ));
   thread t2(std::thread(SUB_TRAFFIC,std::ref(cam_streamer),std::ref(capture_source) ));
   t1.join();
   t2.join();
+  t3.join();
+   
+        
   //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   return 0;
 
