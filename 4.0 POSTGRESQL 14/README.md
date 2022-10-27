@@ -167,6 +167,34 @@ CREATE TABLE GSM(
    device VARCHAR  NULL,
    distance VARCHAR  NULL
 );
+CREATE TABLE BILLBOARD(
+   id SERIAL PRIMARY KEY,
+   billboard_id VARCHAR  NULL,
+   billboard_image VARCHAR  NULL,
+   billboard_daily_views VARCHAR  NULL,
+   billboard_sign_placement VARCHAR  NULL,
+   billboard_traffic_direction VARCHAR  NULL,
+   billboard_availability VARCHAR NULL,
+   billboard_duration VARCHAR  NULL,
+   billboard_dimension VARCHAR NULL,
+   billboard_name VARCHAR  NULL,
+   billboard_latitude VARCHAR  NULL,
+   billboard_longitude VARCHAR NULL,
+   billboard_ip_address VARCHAR  NULL
+);
+
+
+CREATE TABLE ADVERT(
+   id SERIAL PRIMARY KEY,
+   advert_type VARCHAR  NULL,
+   business_id VARCHAR  NULL,
+   billboard_id VARCHAR  NULL,
+   advert_budget VARCHAR  NULL,
+   advert_duration VARCHAR  NULL,
+   advert_media_type VARCHAR  NULL,
+   advert_media_content VARCHAR  NULL
+);
+
 
 ```
 # libpqxx-dev
