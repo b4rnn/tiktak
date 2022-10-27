@@ -167,6 +167,7 @@ CREATE TABLE GSM(
    device VARCHAR  NULL,
    distance VARCHAR  NULL
 );
+
 CREATE TABLE BILLBOARD(
    id SERIAL PRIMARY KEY,
    billboard_id VARCHAR  NULL,
@@ -183,7 +184,6 @@ CREATE TABLE BILLBOARD(
    billboard_ip_address VARCHAR  NULL
 );
 
-
 CREATE TABLE ADVERT(
    id SERIAL PRIMARY KEY,
    advert_type VARCHAR  NULL,
@@ -194,7 +194,6 @@ CREATE TABLE ADVERT(
    advert_media_type VARCHAR  NULL,
    advert_media_content VARCHAR  NULL
 );
-
 
 ```
 # libpqxx-dev
