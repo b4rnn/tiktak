@@ -280,6 +280,7 @@
             "table": "billboard",
             "columns": [
                 "billboard_id",
+                "billboard_image",
                 "billboard_daily_views",
                 "billboard_sign_placement",
                 "billboard_traffic_direction",
@@ -325,9 +326,11 @@
         "nodes": {
             "table": "advert",
             "columns": [
+                "advert_type",
                 "business_id",
                 "billboard_id",
                 "advert_budget",
+                "advert_duration",
                 "advert_media_type",
                 "advert_media_content"
             ]
