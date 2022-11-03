@@ -189,10 +189,14 @@ CREATE TABLE ADVERT(
    advert_type VARCHAR  NULL,
    business_id VARCHAR  NULL,
    billboard_id VARCHAR  NULL,
+   advert_width VARCHAR  NULL,
+   advert_height VARCHAR  NULL,
    advert_budget VARCHAR  NULL,
+   advert_demography VARCHAR  NULL,
    advert_duration VARCHAR  NULL,
    advert_media_type VARCHAR  NULL,
-   advert_media_content VARCHAR  NULL
+   advert_media_content VARCHAR  NULL,
+   advert_display_position VARCHAR  NULL
 );
 
 ```
