@@ -2,6 +2,13 @@
 ```
     pip3 install pgsync
 ```
+#ENV VARIABLE
+```
+    ls -a
+    sudo nano .bashrc 
+    export PATH="/bin:/PATH_TO/.local/bin:$PATH"
+    source .bashrc
+```
 # INDEX DB
 ```
     bootstrap --config /PATH_TO/schema.json
