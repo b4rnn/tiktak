@@ -221,6 +221,22 @@ CREATE TABLE USERLOGS(
    user_location VARCHAR  NULL
 );
 
+CREATE TABLE ADVERTLOGS(
+   advert_id VARCHAR  NULL,
+   advert_started_on VARCHAR  NULL,
+   advert_stopped_on VARCHAR  NULL,
+   billboard_id VARCHAR  NULL,
+   business_id VARCHAR  NULL,
+   advert_status VARCHAR  NULL
+);
+
+CREATE TABLE BILLBOARDLOGS(
+   billboard_id VARCHAR  NULL,
+   billboard_started_on VARCHAR  NULL,
+   billboard_stopped_on VARCHAR  NULL,
+   billboard_process_id VARCHAR  NULL,
+   billboard_status VARCHAR  NULL
+);
 ```
 # libpqxx-dev
 ```
