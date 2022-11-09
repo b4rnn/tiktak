@@ -199,6 +199,27 @@ CREATE TABLE ADVERT(
    advert_display_position VARCHAR  NULL
 );
 
+CREATE TABLE USERS(
+   id SERIAL PRIMARY KEY,
+   first_name VARCHAR  NULL,
+   last_name VARCHAR  NULL,
+   user_email VARCHAR  NULL,
+   user_password VARCHAR  NULL,
+   user_role VARCHAR  NULL,
+   user_status VARCHAR  NULL,
+   user_gender VARCHAR  NULL,
+   user_telephone VARCHAR  NULL,
+   user_date_of_birth VARCHAR  NULL,
+   user_registration_date VARCHAR  NULL
+);
+
+CREATE TABLE USERLOGS(
+   user_login_date VARCHAR  NULL,
+   user_logout_date VARCHAR  NULL,
+   user_device VARCHAR  NULL,
+   user_location VARCHAR  NULL
+);
+
 ```
 # libpqxx-dev
 ```
