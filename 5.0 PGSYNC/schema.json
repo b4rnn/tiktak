@@ -326,13 +326,183 @@
         "nodes": {
             "table": "advert",
             "columns": [
-                "advert_type",
-                "business_id",
-                "billboard_id",
-                "advert_budget",
-                "advert_duration",
-                "advert_media_type",
-                "advert_media_content"
+				"advert_type",
+				"business_id",
+				"billboard_id",
+				"advert_width",
+				"advert_height",
+				"advert_budget",
+				"advert_demography",
+				"advert_duration",
+				"advert_media_type",
+				"advert_media_content",
+				"advert_display_position"
+            ]
+        }
+    },
+    {
+        "database": "gala",
+        "index": "idxudb",
+        "setting": {
+            "analysis": {
+                "analyzer": {
+                    "ngram_analyzer": {
+                        "filter": [
+                            "lowercase"
+                        ],
+                        "type": "custom",
+                        "tokenizer": "ngram_tokenizer"
+                    }
+                },
+                "tokenizer": {
+                    "ngram_tokenizer": {
+                        "token_chars": [
+                            "letter",
+                            "digit",
+                            "punctuation",
+                            "symbol"
+                        ],
+                        "min_gram": "9",
+                        "type": "ngram",
+                        "max_gram": "10"
+                    }
+                }
+            }
+        },
+        "nodes": {
+            "table": "users",
+            "columns": [
+               "first_name",
+               "last_name",
+               "user_email",
+               "user_password",
+               "user_role",
+               "user_status",
+               "user_gender",
+               "user_telephone",
+               "user_date_of_birth",
+               "user_registration_date"
+            ]
+        }
+    },
+    {
+        "database": "gala",
+        "index": "idxuldb",
+        "setting": {
+            "analysis": {
+                "analyzer": {
+                    "ngram_analyzer": {
+                        "filter": [
+                            "lowercase"
+                        ],
+                        "type": "custom",
+                        "tokenizer": "ngram_tokenizer"
+                    }
+                },
+                "tokenizer": {
+                    "ngram_tokenizer": {
+                        "token_chars": [
+                            "letter",
+                            "digit",
+                            "punctuation",
+                            "symbol"
+                        ],
+                        "min_gram": "9",
+                        "type": "ngram",
+                        "max_gram": "10"
+                    }
+                }
+            }
+        },
+        "nodes": {
+            "table": "userlogs",
+            "columns": [
+               "user_telephone",
+               "user_login_date",
+               "user_logout_date",
+               "user_device",
+               "user_location"
+            ]
+        }
+    },
+    {
+        "database": "gala",
+        "index": "idxaldb",
+        "setting": {
+            "analysis": {
+                "analyzer": {
+                    "ngram_analyzer": {
+                        "filter": [
+                            "lowercase"
+                        ],
+                        "type": "custom",
+                        "tokenizer": "ngram_tokenizer"
+                    }
+                },
+                "tokenizer": {
+                    "ngram_tokenizer": {
+                        "token_chars": [
+                            "letter",
+                            "digit",
+                            "punctuation",
+                            "symbol"
+                        ],
+                        "min_gram": "9",
+                        "type": "ngram",
+                        "max_gram": "10"
+                    }
+                }
+            }
+        },
+        "nodes": {
+            "table": "advertlogs",
+            "columns": [
+               "advert_id",
+               "advert_started_on",
+               "advert_stopped_on",
+               "billboard_id",
+               "business_id",
+               "advert_status"
+            ]
+        }
+    },
+    {
+        "database": "gala",
+        "index": "idxbldb",
+        "setting": {
+            "analysis": {
+                "analyzer": {
+                    "ngram_analyzer": {
+                        "filter": [
+                            "lowercase"
+                        ],
+                        "type": "custom",
+                        "tokenizer": "ngram_tokenizer"
+                    }
+                },
+                "tokenizer": {
+                    "ngram_tokenizer": {
+                        "token_chars": [
+                            "letter",
+                            "digit",
+                            "punctuation",
+                            "symbol"
+                        ],
+                        "min_gram": "9",
+                        "type": "ngram",
+                        "max_gram": "10"
+                    }
+                }
+            }
+        },
+        "nodes": {
+            "table": "billboardlogs",
+            "columns": [
+               "billboard_id",
+               "billboard_started_on",
+               "billboard_stopped_on",
+               "billboard_process_id",
+               "billboard_status"
             ]
         }
     }
