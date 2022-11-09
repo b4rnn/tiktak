@@ -214,6 +214,7 @@ CREATE TABLE USERS(
 );
 
 CREATE TABLE USERLOGS(
+   user_telephone VARCHAR  NULL,
    user_login_date VARCHAR  NULL,
    user_logout_date VARCHAR  NULL,
    user_device VARCHAR  NULL,
