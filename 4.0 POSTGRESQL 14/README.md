@@ -243,3 +243,17 @@ CREATE TABLE BILLBOARDLOGS(
 sudo apt-get update -y
 sudo apt-get install -y libpqxx-dev
 ```
+# DIAGNOSTICS 
+```
+pg_lsclusters
+14  down    5432 online postgres /var/lib/postgresql/14/main /var/log/postgresql/postgresql-14-main.log
+
+sudo nano /etc/postgresql/14/main/postgresql.conf
+sudo service postgresql restart
+sudo pg_ctlcluster 14 main start
+sudo netstat -nlp | grep 5432
+
+pg_lsclusters
+Ver Cluster Port Status Owner    Data directory              Log file
+14  main    5432 online postgres /var/lib/postgresql/14/main /var/log/postgresql/postgresql-14-main.log
+```
