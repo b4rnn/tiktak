@@ -198,7 +198,8 @@ CREATE TABLE ADVERT(
    advert_duration VARCHAR  NULL,
    advert_media_type VARCHAR  NULL,
    advert_media_content VARCHAR  NULL,
-   advert_display_position VARCHAR  NULL
+   advert_display_position VARCHAR  NULL,
+   advert_status VARCHAR  NULL
 );
 
 CREATE TABLE USERS(
