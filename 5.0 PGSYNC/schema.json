@@ -290,7 +290,9 @@
                 "billboard_name",
                 "billboard_latitude",
                 "billboard_longitude",
-                "billboard_ip_address"
+                "billboard_ip_address",
+                "billboard_status",
+                "billboard_screen_count"
             ]
         }
    },
@@ -326,17 +328,18 @@
         "nodes": {
             "table": "advert",
             "columns": [
-				"advert_type",
-				"business_id",
-				"billboard_id",
-				"advert_width",
-				"advert_height",
-				"advert_budget",
-				"advert_demography",
-				"advert_duration",
-				"advert_media_type",
-				"advert_media_content",
-				"advert_display_position"
+                "advert_type",
+                "business_id",
+                "billboard_id",
+                "advert_width",
+                "advert_height",
+                "advert_budget",
+                "advert_demography",
+                "advert_duration",
+                "advert_media_type",
+                "advert_media_content",
+                "advert_display_position",
+                "advert_status"
             ]
         }
     },
