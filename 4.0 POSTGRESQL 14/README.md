@@ -211,6 +211,8 @@ CREATE TABLE USERS(
    user_password VARCHAR  NULL,
    user_role VARCHAR  NULL,
    user_status VARCHAR  NULL,
+   user_id VARCHAR  NULL,
+   user_image VARCHAR  NULL,
    user_gender VARCHAR  NULL,
    user_telephone VARCHAR  NULL,
    user_date_of_birth VARCHAR  NULL,
