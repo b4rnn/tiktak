@@ -555,5 +555,50 @@
                 "country"
             ]
         }
+    },
+    {
+        "database": "gala",
+        "index": "idxcpdb",
+        "setting": {
+            "analysis": {
+                "analyzer": {
+                    "ngram_analyzer": {
+                        "filter": [
+                            "lowercase"
+                        ],
+                        "type": "custom",
+                        "tokenizer": "ngram_tokenizer"
+                    }
+                },
+                "tokenizer": {
+                    "ngram_tokenizer": {
+                        "token_chars": [
+                            "letter",
+                            "digit",
+                            "punctuation",
+                            "symbol"
+                        ],
+                        "min_gram": "9",
+                        "type": "ngram",
+                        "max_gram": "10"
+                    }
+                }
+            }
+        },
+        "nodes": {
+            "table": "campaigns",
+            "columns": [
+                "campaign_id",
+                "location_id",
+                "business_id",
+                "daily_budget",
+                "campaign_start_date",
+                "campaign_end_date",
+                "campaign_status",
+                "campaign_name",
+                "campaign_media_type",
+                "campaign_media_content"
+            ]
+        }
     }
 ]
