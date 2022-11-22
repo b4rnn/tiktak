@@ -232,7 +232,8 @@ CREATE TABLE LOCATIONS(
    state VARCHAR  NULL,
    zip VARCHAR  NULL,
    county VARCHAR  NULL,
-   country VARCHAR  NULL
+   country VARCHAR  NULL,
+   location_id VARCHAR  NULL
 );
 
 CREATE TABLE USERLOGS(
