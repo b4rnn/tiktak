@@ -210,6 +210,20 @@ CREATE TABLE ADVERT(
    advert_status VARCHAR  NULL
 );
 
+CREATE TABLE CAMPAIGNS(
+    campaign_id VARCHAR  NULL,
+    location_id VARCHAR  NULL,
+    business_id VARCHAR  NULL,
+    daily_budget VARCHAR  NULL,
+    campaign_start_date VARCHAR  NULL,
+    campaign_end_date VARCHAR  NULL,
+    schedule text[] NULL,
+    campaign_status VARCHAR  NULL,
+    campaign_name VARCHAR  NULL,
+    campaign_media_type VARCHAR  NULL,
+    campaign_media_content VARCHAR  NULL
+);
+
 CREATE TABLE USERS(
    id SERIAL PRIMARY KEY,
    first_name VARCHAR  NULL,
