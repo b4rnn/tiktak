@@ -297,9 +297,9 @@
                 "billboard_state",
                 "billboard_zip",
                 "billboard_county",
-                "bilboard_vcpus",
-                "bilboard_model",
-                "bilboard_display_description"
+                "billboard_vcpus",
+                "billboard_model",
+                "billboard_display_description"
             ]
         }
    },
