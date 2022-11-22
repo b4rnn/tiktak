@@ -226,6 +226,15 @@ CREATE TABLE USERS(
    user_registration_date VARCHAR  NULL
 );
 
+CREATE TABLE LOCATIONS(
+   id SERIAL PRIMARY KEY,
+   city VARCHAR  NULL,
+   state VARCHAR  NULL,
+   zip VARCHAR  NULL,
+   county VARCHAR  NULL,
+   country VARCHAR  NULL
+);
+
 CREATE TABLE USERLOGS(
    user_telephone VARCHAR  NULL,
    user_login_date VARCHAR  NULL,
