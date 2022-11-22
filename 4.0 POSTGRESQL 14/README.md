@@ -184,7 +184,12 @@ CREATE TABLE BILLBOARD(
    billboard_ip_address VARCHAR  NULL,
    billboard_status VARCHAR  NULL,
    billboard_screen_count VARCHAR  NULL,
-   billboard_pid VARCHAR  NULL
+   billboard_pid VARCHAR  NULL,
+   billboard_city VARCHAR  NULL,
+   billboard_state VARCHAR  NULL,
+   billboard_zip VARCHAR  NULL,
+   billboard_county VARCHAR  NULL,
+   bilboard_resources VARCHAR  NULL
 );
 
 CREATE TABLE ADVERT(
