@@ -382,12 +382,14 @@
         "nodes": {
             "table": "users",
             "columns": [
+               "user_id",
                "first_name",
                "last_name",
                "user_email",
                "user_password",
                "user_role",
                "user_status",
+               "user_image",
                "user_gender",
                "user_telephone",
                "user_date_of_birth",
@@ -552,7 +554,8 @@
                 "state",
                 "zip",
                 "county",
-                "country"
+                "country",
+                "names"
             ]
         }
     },
