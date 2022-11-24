@@ -189,9 +189,9 @@ CREATE TABLE BILLBOARD(
    billboard_state VARCHAR  NULL,
    billboard_zip VARCHAR  NULL,
    billboard_county VARCHAR  NULL,
-   bilboard_vcpus VARCHAR  NULL,
-   bilboard_model VARCHAR  NULL,
-   bilboard_display_description VARCHAR  NULL
+   billboard_vcpus VARCHAR  NULL,
+   billboard_model VARCHAR  NULL,
+   billboard_display_description VARCHAR  NULL
 );
 
 CREATE TABLE ADVERT(
