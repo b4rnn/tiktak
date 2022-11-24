@@ -247,6 +247,7 @@ CREATE TABLE LOCATIONS(
    zip VARCHAR  NULL,
    county VARCHAR  NULL,
    country VARCHAR  NULL,
+   names VARCHAR  NULL,
    location_id VARCHAR  NULL
 );
 
