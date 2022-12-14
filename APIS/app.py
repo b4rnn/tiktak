@@ -1008,13 +1008,14 @@ def CAMPAIGN_REVIEW(bid=None, uid=None):
                         print('TypeError')
                 billboard_records = [i for n, i in enumerate(Query_List) if i not in Query_List[n + 1:]]
                 if(billboard_records):
+                    print(campaign_records[8].split(" ")[0].capitalize() + " " + campaign_records[8].split(" ")[1].capitalize())
                     DESIGN_MEDIA_URL  = ADVERT_URL + Path(campaign_records[10]).name
                     DESIGN_POSTER_URL = ADVERT_URL + Path(campaign_records[14]).name
                     schedule_records.append(re.sub("\"", "", campaign_records[6][0]))
                     advert_records.append({"name":campaign_records[8], "status":campaign_records[7], "category":campaign_records[12]})
                     design_records.append({"source_file":DESIGN_MEDIA_URL, "channel":campaign_records[13], "poster" : DESIGN_POSTER_URL})
                     budget_records.append({"daily_budget":campaign_records[3], "start_date":campaign_records[4], "end_date":campaign_records[5]})
-                    msg ="BILLBOARD BUDGET SAVED SUCESSFULLY " 
+                    msg ="CAMPAIGN SAVED FOR APPROVAL" 
                     RESULT = {"msg" : msg,"status":"200","location":billboard_records,"budget":budget_records,"schedule":schedule_records,"design":design_records,"campaign":advert_records}
         except (Exception, Error) as error:
             print(error)
@@ -1040,7 +1041,7 @@ def CAMPAIGN_SUBMIT(bid=None, uid=None):
             conn.commit()
             
             msg ="REVIEW SAVED SUCESSFULLY " 
-            RESULT = {"msg" : msg,"status":"200","sessionId":API_RESULT['uid']}
+            RESULT = {"msg" : msg,"status":"200","sessionId":API_RESULT['uid'],"uri":CLIENT_URL}
         except (Exception, Error) as error:
             
             msg ="ERROR OCURRED .. CONTACT ADMIN " + str(error)
@@ -1066,9 +1067,11 @@ def CAMPAIGN_STATUS(bid=None, uid=None):
             campaign_records = cur.fetchall()
             advert_records = []
             for campaign_record in campaign_records:
-                DESIGN_MEDIA_URL  = ADVERT_URL + Path(campaign_record[10]).name
-                DESIGN_POSTER_URL = ADVERT_URL + Path(campaign_record[14]).name
-                advert_records.append({"source_file":DESIGN_MEDIA_URL, "channel":campaign_record[13], "poster" : DESIGN_POSTER_URL,"name":campaign_record[8], "status":campaign_record[7], "category":campaign_record[12]})
+                DESIGN_MEDIA_URL        = ADVERT_URL + Path(campaign_record[10]).name
+                DESIGN_POSTER_URL       = ADVERT_URL + Path(campaign_record[14]).name
+                DESIGN_ADVERT_CATEGORY  = campaign_record[12].replace("&","and")
+                DESIGN_ADVERT_NAME      = campaign_record[8].split(" ")[0].capitalize() + " " + campaign_record[8].split(" ")[1].capitalize()
+                advert_records.append({"source_file":DESIGN_MEDIA_URL, "channel":campaign_record[13], "poster" : DESIGN_POSTER_URL,"name":DESIGN_ADVERT_NAME, "campaign_id":campaign_record[0], "campaign_owner_id":API_RESULT['uid']})
             msg ="SUCCESS "
             RESULT = {"msg" : msg, "status":"200" , "advert": advert_records}
         except (Exception, Error) as error:
@@ -1079,7 +1082,58 @@ def CAMPAIGN_STATUS(bid=None, uid=None):
                 cur.close()
                 conn.close()
     return jsonify(RESULT)
-    
+
+@app.route('/api/campaign/preview' , methods=['POST'])
+def CAMPAIGN_PREVIEW(bid=None, uid=None):
+    if request.method == 'POST':
+        RESULT ={}
+        Query_List = []
+        advert_records = []
+        design_records = []
+        budget_records = []
+        schedule_records = []
+        API_RESULT = request.get_json()
+        print(API_RESULT)
+        try:
+            conn = get_db_connection()
+            cur = conn.cursor()  
+            cur.execute('SELECT * FROM campaigns  WHERE campaign_id = %s AND campaign_owner_id = %s',(API_RESULT['campaign_id'],API_RESULT['uid']))
+            conn.commit()
+            campaign_records = cur.fetchone()
+            if(campaign_records[0]==API_RESULT['campaign_id']):
+                data = requests.get('http://localhost:9200/idxbdb/_search?q='+campaign_records[2])
+                response = data.json()
+                billboard_records = []
+                elastic_docs = response["hits"]["hits"]
+                for num, doc in enumerate(elastic_docs):
+                    try:
+                        source_data = doc["_source"]
+                        source_data.pop("_meta", None)
+                        #source_data.pop("billboard_ip_address", None)
+                        source_data["billboard_image"] = BILLBOARD_URL + os.path.basename(source_data['billboard_image'])
+                        Query_List.append(source_data)
+                    except TypeError:
+                        print('TypeError')
+                billboard_records = [i for n, i in enumerate(Query_List) if i not in Query_List[n + 1:]]
+                if(billboard_records):
+                    print(campaign_records[8].split(" ")[0].capitalize() + " " + campaign_records[8].split(" ")[1].capitalize())
+                    DESIGN_MEDIA_URL  = ADVERT_URL + Path(campaign_records[10]).name
+                    DESIGN_POSTER_URL = ADVERT_URL + Path(campaign_records[14]).name
+                    schedule_records.append(re.sub("\"", "", campaign_records[6][0]))
+                    advert_records.append({"name":campaign_records[8], "status":campaign_records[7], "category":campaign_records[12]})
+                    design_records.append({"source_file":DESIGN_MEDIA_URL, "channel":campaign_records[13], "poster" : DESIGN_POSTER_URL})
+                    budget_records.append({"daily_budget":campaign_records[3], "start_date":campaign_records[4], "end_date":campaign_records[5]})
+                    msg ="CAMPAIGN SAVED FOR APPROVAL" 
+                    RESULT = {"msg" : msg,"status":"200","location":billboard_records,"budget":budget_records,"schedule":schedule_records,"design":design_records,"campaign":advert_records}
+        except (Exception, Error) as error:
+            print(error)
+            msg ="ERROR OCURRED .. CONTACT ADMIN " + str(error)
+            RESULT = {"msg" : msg,"status":"201"}
+        finally:
+            if (conn):
+                cur.close()
+                conn.close()
+    return jsonify(RESULT)
 #CREATE ADVERT
 @app.route('/api/advert/create/<id>' , methods=['POST'])
 def CREATE_ADVERT(id):
