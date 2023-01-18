@@ -196,18 +196,18 @@ CREATE TABLE BILLBOARD(
 
 CREATE TABLE ADVERT(
    id SERIAL PRIMARY KEY,
-   advert_type VARCHAR  NULL,
-   business_id VARCHAR  NULL,
-   billboard_id VARCHAR  NULL,
-   advert_width VARCHAR  NULL,
-   advert_height VARCHAR  NULL,
-   advert_budget VARCHAR  NULL,
-   advert_demography VARCHAR  NULL,
-   advert_duration VARCHAR  NULL,
-   advert_media_type VARCHAR  NULL,
-   advert_media_content VARCHAR  NULL,
-   advert_display_position VARCHAR  NULL,
-   advert_status VARCHAR  NULL
+   advert_month VARCHAR  NULL,
+   advert_date VARCHAR  NULL,
+   advert_year VARCHAR  NULL,
+   advert_dow VARCHAR  NULL,
+   advert_time VARCHAR  NULL,
+   advert_period VARCHAR  NULL,
+   advert_agency_id VARCHAR  NULL,
+   advert_customer_id VARCHAR  NULL,
+   advert_campaign_id VARCHAR  NULL,
+   advert_expected_time VARCHAR  NULL,
+   advert_predicted_time VARCHAR  NULL,
+   advert_termination_time VARCHAR  NULL
 );
 
 CREATE TABLE CAMPAIGNS(
