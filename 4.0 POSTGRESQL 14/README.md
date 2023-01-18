@@ -201,6 +201,8 @@ CREATE TABLE ADVERT(
    advert_year VARCHAR  NULL,
    advert_dow VARCHAR  NULL,
    advert_time VARCHAR  NULL,
+   advert_cost VARCHAR  NULL,
+   advert_size VARCHAR  NULL,
    advert_period VARCHAR  NULL,
    advert_agency_id VARCHAR  NULL,
    advert_customer_id VARCHAR  NULL,
