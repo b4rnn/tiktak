@@ -279,27 +279,34 @@
         "nodes": {
             "table": "billboard",
             "columns": [
-                "billboard_id",
-                "billboard_image",
-                "billboard_daily_views",
-                "billboard_sign_placement",
-                "billboard_traffic_direction",
-                "billboard_availability",
-                "billboard_duration", 
-                "billboard_dimension",
-                "billboard_name",
-                "billboard_latitude",
-                "billboard_longitude",
-                "billboard_ip_address",
-                "billboard_status",
-                "billboard_screen_count",
-                "billboard_city",
-                "billboard_state",
-                "billboard_zip",
-                "billboard_county",
-                "billboard_vcpus",
-                "billboard_model",
-                "billboard_display_description"
+                "billboard_id           ",
+                "billboard_image        ",
+                "billboard_daily_views  ",
+                "billboard_availability ",
+                "billboard_duration     ",
+                "billboard_dimension    ",
+                "billboard_name         ",
+                "billboard_latitude     ",
+                "billboard_longitude    ",
+                "billboard_ip_address   ",
+                "billboard_status       ",
+                "billboard_screen_count ",
+                "billboard_pid          ",
+                "billboard_city         ",
+                "billboard_state        ",
+                "billboard_zip          ",
+                "billboard_county       ",
+                "billboard_vcpus        ",
+                "billboard_country      ",
+                "billboard_model        ",
+                "billboard_width        ",
+                "billboard_height       ",
+                "billboard_owner_name   ",
+                "billboard_admin_id     ",
+                "billboard_agency_id    ",
+                "billboard_sign_placement ",
+                "billboard_traffic_direction ",
+                "billboard_display_description "
             ]
         }
    },
@@ -335,18 +342,19 @@
         "nodes": {
             "table": "advert",
             "columns": [
-                "advert_type",
-                "business_id",
-                "billboard_id",
-                "advert_width",
-                "advert_height",
-                "advert_budget",
-                "advert_demography",
-                "advert_duration",
-                "advert_media_type",
-                "advert_media_content",
-                "advert_display_position",
-                "advert_status"
+                "advert_id",
+                "advert_month ",
+                "advert_date ",
+                "advert_year ",
+                "advert_dow ",
+                "advert_time ",
+                "advert_period ",
+                "advert_agency_id ",
+                "advert_customer_id ",
+                "advert_campaign_id ",
+                "advert_expected_time ",
+                "advert_predicted_time ",
+                "advert_termination_time "
             ]
         }
     },
@@ -600,8 +608,63 @@
                 "campaign_status",
                 "campaign_name",
                 "campaign_media_type",
-                "campaign_media_content"
+                "campaign_owner_id",
+                "campaign_category",
+                "campaign_media_content",
+                "campaign_media_position  ",
+                "campaign_poster          ",
+                "campaign_media_xpos      ",
+                "campaign_media_ypos      ",
+                "campaign_media_width     ",
+                "campaign_media_height    ",
+                "campaign_media_length    ",
+                "campaign_billboard_owner "
             ]
         }
-    }
+    },
+    {
+        "database": "gala",
+        "index": "idxagdb",
+        "setting": {
+            "analysis": {
+                "analyzer": {
+                    "ngram_analyzer": {
+                        "filter": [
+                            "lowercase"
+                        ],
+                        "type": "custom",
+                        "tokenizer": "ngram_tokenizer"
+                    }
+                },
+                "tokenizer": {
+                    "ngram_tokenizer": {
+                        "token_chars": [
+                            "letter",
+                            "digit",
+                            "punctuation",
+                            "symbol"
+                        ],
+                        "min_gram": "9",
+                        "type": "ngram",
+                        "max_gram": "10"
+                    }
+                }
+            }
+        },
+        "nodes": {
+            "table": "agency",
+            "columns": [
+                "agency_id ",
+                "agency_name ",
+                "agency_email ",
+                "agency_telephone1 ",
+                "agency_telephone2 ",
+                "agency_adddress ",
+                "agency_status ",
+                "agency_location ",
+                "agency_creation_time ",
+                "agency_termination_time "
+            ]
+        }
+   }
 ]
