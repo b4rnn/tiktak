@@ -348,6 +348,8 @@
                 "advert_year ",
                 "advert_dow ",
                 "advert_time ",
+                "advert_cost ",
+                "advert_size ",
                 "advert_period ",
                 "advert_agency_id ",
                 "advert_customer_id ",
