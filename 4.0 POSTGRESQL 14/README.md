@@ -244,6 +244,22 @@ CREATE TABLE USERS(
    user_registration_date VARCHAR  NULL
 );
 
+CREATE TABLE AGENCY(
+   id SERIAL PRIMARY KEY,
+   agency_id VARCHAR  NULL,
+   agency_name  VARCHAR  NULL,
+   agency_email  VARCHAR  NULL,
+   agency_telephone1 VARCHAR  NULL,
+   agency_telephone2 VARCHAR  NULL,
+   agency_status VARCHAR  NULL,
+   agency_adddress VARCHAR  NULL,
+   agency_location VARCHAR  NULL,
+   agency_creation_time VARCHAR  NULL,
+   agency_termination_time VARCHAR  NULL,
+   agency_city VARCHAR  NULL,
+   agency_country VARCHAR  NULL
+);
+
 CREATE TABLE LOCATIONS(
    id SERIAL PRIMARY KEY,
    city VARCHAR  NULL,
