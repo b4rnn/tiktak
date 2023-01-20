@@ -196,6 +196,7 @@ CREATE TABLE BILLBOARD(
 
 CREATE TABLE ADVERT(
    id SERIAL PRIMARY KEY,
+   edge_id VARCHAR  NULL,
    advert_month VARCHAR  NULL,
    advert_date VARCHAR  NULL,
    advert_year VARCHAR  NULL,
@@ -204,6 +205,7 @@ CREATE TABLE ADVERT(
    advert_cost VARCHAR  NULL,
    advert_size VARCHAR  NULL,
    advert_period VARCHAR  NULL,
+   edge_advert_id VARCHAR  NULL,
    advert_agency_id VARCHAR  NULL,
    advert_customer_id VARCHAR  NULL,
    advert_campaign_id VARCHAR  NULL,
