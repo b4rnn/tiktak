@@ -215,18 +215,31 @@ CREATE TABLE ADVERT(
 );
 
 CREATE TABLE CAMPAIGNS(
-    campaign_id VARCHAR  NULL,
-    location_id VARCHAR  NULL,
-    business_id VARCHAR  NULL,
-    daily_budget VARCHAR  NULL,
-    campaign_start_date VARCHAR  NULL,
-    campaign_end_date VARCHAR  NULL,
-    schedule text[] NULL,
-    campaign_status VARCHAR  NULL,
-    campaign_name VARCHAR  NULL,
-    campaign_media_type VARCHAR  NULL,
-    campaign_media_content VARCHAR  NULL
-);
+    campaign_id               VARCHAR  NULL, 
+    location_id               VARCHAR  NULL, 
+    business_id               VARCHAR  NULL, 
+    daily_budget              VARCHAR  NULL, 
+    campaign_start_date       VARCHAR  NULL, 
+    campaign_end_date         VARCHAR  NULL, 
+    schedule                  JSONB    NULL,
+    campaign_status           VARCHAR  NULL, 
+    campaign_name             VARCHAR  NULL, 
+    campaign_media_type       VARCHAR  NULL, 
+    campaign_media_content    VARCHAR  NULL, 
+    campaign_owner_id         VARCHAR  NULL, 
+    campaign_category         VARCHAR  NULL, 
+    campaign_media_position   VARCHAR  NULL, 
+    campaign_poster           VARCHAR  NULL, 
+    campaign_media_xpos       VARCHAR  NULL, 
+    campaign_media_ypos       VARCHAR  NULL, 
+    campaign_media_width      VARCHAR  NULL, 
+    campaign_media_height     VARCHAR  NULL, 
+    campaign_media_length     VARCHAR  NULL, 
+    campaign_billboard_owner  VARCHAR  NULL, 
+    campaign_agency_id        VARCHAR  NULL, 
+    campaign_media_design     JSONB    NULL
+);            
+
 
 CREATE TABLE USERS(
    id SERIAL PRIMARY KEY,
