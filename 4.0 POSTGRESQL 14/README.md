@@ -195,23 +195,27 @@ CREATE TABLE BILLBOARD(
 );
 
 CREATE TABLE ADVERT(
-   id SERIAL PRIMARY KEY,
-   edge_id VARCHAR  NULL,
-   advert_month VARCHAR  NULL,
-   advert_date VARCHAR  NULL,
-   advert_year VARCHAR  NULL,
-   advert_dow VARCHAR  NULL,
-   advert_time VARCHAR  NULL,
-   advert_cost VARCHAR  NULL,
-   advert_size VARCHAR  NULL,
-   advert_period VARCHAR  NULL,
-   edge_advert_id VARCHAR  NULL,
-   advert_agency_id VARCHAR  NULL,
-   advert_customer_id VARCHAR  NULL,
-   advert_campaign_id VARCHAR  NULL,
-   advert_expected_time VARCHAR  NULL,
-   advert_predicted_time VARCHAR  NULL,
-   advert_termination_time VARCHAR  NULL
+    id SERIAL PRIMARY KEY,                     
+    advert_month VARCHAR  NULL,            
+    advert_date VARCHAR  NULL,            
+    advert_year VARCHAR  NULL,            
+    advert_dow VARCHAR  NULL,             
+    advert_time VARCHAR  NULL,           
+    advert_period VARCHAR  NULL,         
+    advert_agency_id VARCHAR  NULL,       
+    advert_customer_id VARCHAR  NULL,     
+    advert_campaign_id VARCHAR  NULL,      
+    advert_expected_time VARCHAR  NULL,    
+    advert_predicted_time VARCHAR  NULL,  
+    advert_termination_time VARCHAR  NULL, 
+    advert_id VARCHAR  NULL,              
+    advert_size INTEGER  NULL,           
+    advert_cost VARCHAR  NULL,             
+    advert_edge_id VARCHAR  NULL,         
+    advert_edge_endpoint VARCHAR  NULL,   
+    advert_edge_pos VARCHAR  NULL,        
+    advert_frequency INTEGER  NULL,      
+    advert_slot_count INTEGER  NULL
 );
 
 CREATE TABLE CAMPAIGNS(
