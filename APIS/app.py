@@ -102,15 +102,15 @@ def get_db_connection():
     return conn
 
 #PORTALS
-ADMIN_URL       = 'https://stroberigroup.com/admin/'
-AGENT_URL       = 'https://stroberigroup.com/agent/'
-CLIENT_URL      = 'https://stroberigroup.com/client/'
-DEFAULT_URL     = 'https://stroberigroup.com/auth/login/'
-CAMPAIGN_URL    = 'https://stroberigroup.com/client/campaigns/new/'
-ADVERT_URL      = 'https://stroberigroup.com/uploads/temporary/advert/'
-PROFILE_URL     = 'https://stroberigroup.com/uploads/permanent/profile/'
-BILLBOARD_URL   = 'https://stroberigroup.com/uploads/permanent/billboard/'
-NO_VIDEO_POSTER = 'https://stroberigroup.com/uploads/temporary/advert/novideo.png'
+ADMIN_URL       = 'IP_ADDRESS/admin/'
+AGENT_URL       = 'IP_ADDRESS/agent/'
+CLIENT_URL      = 'IP_ADDRESS/client/'
+DEFAULT_URL     = 'IP_ADDRESS/auth/login/'
+CAMPAIGN_URL    = 'IP_ADDRESS/client/campaigns/new/'
+ADVERT_URL      = 'IP_ADDRESS/uploads/temporary/advert/'
+PROFILE_URL     = 'IP_ADDRESS/uploads/permanent/profile/'
+BILLBOARD_URL   = 'IP_ADDRESS/uploads/permanent/billboard/'
+NO_VIDEO_POSTER = 'IP_ADDRESS/uploads/temporary/advert/novideo.png'
 
 #CREATE PROFILE
 @app.route('/api/profile/create' , methods=['POST'])
