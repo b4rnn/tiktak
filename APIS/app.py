@@ -3,18 +3,22 @@ import re
 import ast
 import time
 import cv2
+import math
+import json
 import redis
 import queue
 import base64    
 import signal
 import string
 import random
+import hashlib
 import calendar
 import requests
 import psycopg2
 import threading
 import subprocess 
 import numpy as np
+from time import sleep
 from pathlib import Path
 from datetime import date
 import simplejson as json
@@ -104,9 +108,9 @@ def get_db_connection():
 #PORTALS
 ADMIN_URL       = 'IP_ADDRESS/admin/'
 AGENT_URL       = 'IP_ADDRESS/agent/'
-CLIENT_URL      = 'IP_ADDRESS/client/'
+CLIENT_URL      = 'IP_ADDRESS/tangazo/client/'
 DEFAULT_URL     = 'IP_ADDRESS/auth/login/'
-CAMPAIGN_URL    = 'IP_ADDRESS/client/campaigns/new/'
+CAMPAIGN_URL    = 'IP_ADDRESS/tangazo/client/campaigns/new/'
 ADVERT_URL      = 'IP_ADDRESS/uploads/temporary/advert/'
 PROFILE_URL     = 'IP_ADDRESS/uploads/permanent/profile/'
 BILLBOARD_URL   = 'IP_ADDRESS/uploads/permanent/billboard/'
@@ -1959,10 +1963,10 @@ def CREATE_ADVERT():
                     # NUMBER OF SLOTS PER DAY = DAILY_BUDGET / PRICE_PER_SLOT
 
                     #1.0 METRICS
+                    SCORE_ID = ""
                     PRICE_PER_SLOT  = float(campaign_records[19]) * float(7.5)
                     SLOTS_PER_DAY   = float(campaign_records[ 3]) / PRICE_PER_SLOT
                     AVAILABLE_SLOTS = round(3600 - ((int(datetime.now().strftime("%M:%S")[:-3])*60)+int(datetime.now().strftime("%M:%S")[3:])))
-
                     #2.0 METRICS
                     for _DATE , _TIME in DATE_TIME:
                         for _date in _DATE:
@@ -1976,7 +1980,7 @@ def CREATE_ADVERT():
                                 TIME                     =  datetime.strptime(str(_time), "%H").strftime("%I:%M %p")[:-2]
                                 ADVERT_SIZE              =  campaign_records[19]
                                 ADVERT_COST              =  campaign_records[ 3]
-                                ADVERT_FREQUENCY         =  round(SLOTS_PER_DAY)
+                                ADVERT_FREQUENCY         =  math.floor(SLOTS_PER_DAY)
                                 EXPECTED_TIME            =  _date.strftime("%Y-%m-%d") + " " + datetime.strptime(str(_time), "%H").strftime("%I:%M %p")
                                 EXPECTED_TIMESTAMP       =  round(datetime.timestamp(datetime.strptime(EXPECTED_TIME , "%Y-%m-%d %I:%M %p")))
                                 PREDICTED_DATETIME       =  datetime.fromtimestamp(EXPECTED_TIMESTAMP) + timedelta(seconds=3)
@@ -1994,14 +1998,18 @@ def CREATE_ADVERT():
                                 ADVERT_SLOT_COUNT        =  campaign_records[19]
                                 EDGES                    += [ADVERT_ID]
                                 NODE                     += [EXPECTED_TIMESTAMP,EDGE_ADVERT_CHANNEL_POS,EDGE_ID,ADVERT_SIZE]
+                                SCORES                   =  str(EDGE_ID).encode('ascii')+str(EXPECTED_TIMESTAMP).encode('ascii')+str(EDGE_ADVERT_CHANNEL_POS).encode('ascii')
+                                SCORE_ID                 =  hashlib.sha256(SCORES).hexdigest()
                                 NODES                    += [NODE]
-                                METRICS                  += [[MONTH , DATE , YEAR , DOW , TIME , PERIOD , ADVERT_AGENCY_ID , ADVERT_CUSTOMER_ID , ADVERT_CAMPAIGN_ID , ADVERT_EXPECTED_TIME , ADVERT_ID , ADVERT_SIZE , ADVERT_COST , EDGE_ID ,EDGE_ENDPONT , EDGE_ADVERT_CHANNEL_POS, ADVERT_FREQUENCY, ADVERT_SLOT_COUNT]]
+                                SCORES                   =  str(MONTH).encode('ascii')+str(DATE).encode('ascii')+str(YEAR).encode('ascii')+str(DOW).encode('ascii')+str(TIME).encode('ascii')+str(PERIOD).encode('ascii')+str(EDGE_ID).encode('ascii')+str(EXPECTED_TIMESTAMP).encode('ascii')+str(EDGE_ADVERT_CHANNEL_POS).encode('ascii')
+                                SCORE_ID                 =  hashlib.sha256(SCORES).hexdigest()
+                                METRICS                  += [[MONTH , DATE , YEAR , DOW , TIME , PERIOD , ADVERT_AGENCY_ID , ADVERT_CUSTOMER_ID , ADVERT_CAMPAIGN_ID , ADVERT_EXPECTED_TIME , ADVERT_ID , ADVERT_SIZE , ADVERT_COST , EDGE_ID ,EDGE_ENDPONT , EDGE_ADVERT_CHANNEL_POS, ADVERT_FREQUENCY, ADVERT_SLOT_COUNT,SCORE_ID]]
                     
-                    print('EDGE = {} AND NODE = {} AND METRICS = {} SLOTS ={}'.format(len(EDGES) , len(NODES) , len(METRICS) ,AVAILABLE_SLOTS))
+                    print('EDGE = {} AND NODE = {} AND METRICS = {} SLOTS ={} SORES ={}'.format(len(EDGES) , len(NODES) , len(METRICS) ,AVAILABLE_SLOTS,SCORE_ID))
                     
                     #3.0 INSERTION
                     try:
-                        cur.executemany('INSERT INTO advert (advert_month , advert_date , advert_year , advert_dow , advert_time , advert_period , advert_agency_id ,  advert_customer_id , advert_campaign_id , advert_expected_time , advert_id , advert_size , advert_cost , advert_edge_id , advert_edge_endpoint, advert_edge_pos, advert_frequency, advert_slot_count) VALUES(%s , %s , %s , %s , %s , %s , %s, %s, %s , %s , %s , %s , %s , %s, %s, %s, %s, %s)',METRICS)
+                        cur.executemany('INSERT INTO advert (advert_month , advert_date , advert_year , advert_dow , advert_time , advert_period , advert_agency_id ,  advert_customer_id , advert_campaign_id , advert_expected_time , advert_id , advert_size , advert_cost , advert_edge_id , advert_edge_endpoint, advert_edge_pos, advert_frequency, advert_slot_count, advert_score_id) VALUES(%s , %s , %s , %s , %s , %s , %s, %s, %s , %s , %s , %s , %s , %s, %s, %s, %s, %s, %s)',METRICS)
                         conn.commit() 
                     except (Exception, Error) as error:
                         msg ="ERROR OCURRED .. CONTACT ADMIN " + str(error)
@@ -2036,9 +2044,9 @@ def CREATE_ADVERT():
                     RESULT = {"msg" : "CAMPAIGN VERIFIED","status":"200"}
                     
                     #EDGE
-                    #cur.execute('UPDATE campaigns SET campaign_status = %s  WHERE campaign_id = %s AND campaign_owner_id = %s',
-                    ##(API_RESULT['status'],API_RESULT['campaign_id'],campaign_records[11]))
-                    #conn.commit()
+                    cur.execute('UPDATE campaigns SET campaign_status = %s  WHERE campaign_id = %s AND campaign_owner_id = %s',
+                    (API_RESULT['status'],API_RESULT['campaign_id'],campaign_records[11]))
+                    conn.commit()
                     
         except (Exception, Error) as error:
             print(error)
@@ -2135,6 +2143,66 @@ def AGENCY_SELECT_BILLBOARD():
         RESULT = {"msg":Query_Result ,"status":"200"}
     return jsonify(RESULT)
 
+@app.route('/api/campaign/advert/plot' , methods=['POST'])
+def CAMPAIGN_ADVERT_PLOT():
+    if request.method == 'POST':
+        RESULT     = {}
+        Query_List = []
+        API_RESULT = request.get_json()
+        '''
+        API_RESULT = request.get_json()
+        str(API_RESULT['id'])
+        '''
+        query = json.dumps({
+            "from" : 0, "size" : 1000,
+
+            "_source": {        
+                "include": ["advert_predicted_time","advert_termination_time","advert_size","advert_frequency","advert_slot_count","advert_cost"]
+            },
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "match": {
+                                "advert_campaign_id":str(API_RESULT['id'])
+                            }
+                        }
+
+                    ]
+                } 
+            }
+        })
+
+        DATA     = {}
+        header   = {'Content-Type': 'application/json'}
+        uri      = 'http://localhost:9200/idxadb/_search?pretty=true'
+        results  = requests.get(uri, data=query , headers=header)
+        response = json.loads(results.text)
+        elastic_docs = response["hits"]["hits"]
+        for num, doc in enumerate(elastic_docs):
+            try:
+                source_data = doc["_source"]
+                source_data.pop("_meta", None)
+                advert_spending = float(source_data["advert_slot_count"])*7.5
+                advert_balance  = float(source_data["advert_cost"])- advert_spending
+                Query_List.append({ 'st' :source_data['advert_predicted_time'], 'ed': source_data['advert_termination_time'],'vl':source_data['advert_size'],'vf':source_data['advert_frequency'],'al':source_data['advert_slot_count'],'ac':source_data['advert_cost'],'ab':advert_balance,'as':advert_spending})
+                #Query_List.append({ 'x' :source_data['advert_predicted_time'], 'y': source_data['advert_termination_time']})
+                '''
+                ET   =  datetime.fromtimestamp(round(datetime.timestamp(datetime.fromtimestamp(int(source_data['advert_expected_time']))))).strftime('%Y-%m-%d %H:%M:%S')
+                PTS  =  round(datetime.timestamp(datetime.strptime(source_data['advert_predicted_time'] , "%Y-%m-%d %H:%M:%S")))
+                ETS  =  source_data['advert_expected_time']
+                EPTS =  int(PTS) - int(ETS)
+                Query_List.append({ 'ST' :[{'x':ET,'y':EPTS}], 'ET':[{'x':source_data['advert_predicted_time'],'y':source_data['advert_slot_count']}]})
+                '''
+            except TypeError:
+                print('TypeError')
+
+        print(Query_List)  
+        msg ="ERROR OCURRED .. CONTACT ADMIN "
+        RESULT = {"msg" : msg,"status":"200" , "cord" : Query_List}
+
+    return jsonify(RESULT)
+    
 #submit/withdraw and advert
 @app.route('/api/schedular/ads/submit' , methods=['POST'])
 def schedular():
@@ -2173,20 +2241,7 @@ def COMPUTE_TIME(Q):
                 "must": [
                     {
                         "match_phrase": {
-                            "advert_edge_pos":str(Q[1])
-                            #"_name":"exact_match"
-                        }
-                    },
-                    {
-                        "match_phrase": {
-                            "advert_expected_time": str(Q[0])
-                            #"_name":"exact_match"
-                        }
-                    },
-                    {
-                        "match_phrase": {
-                            "advert_edge_id":str(Q[2])
-                            #"_name":"exact_match"
+                            "advert_score_id":str(Q[0])
                         }
                     }
                 ]
@@ -2216,7 +2271,7 @@ def pub_task(i, q , v):
                 
                 for i in range(len(TIME_SERIES[0])):
                     SEARCH_TERMS   = []
-                    SEARCH_TERMS   = [TIME_SERIES[1][i][0],TIME_SERIES[1][i][1],TIME_SERIES[1][i][2],TIME_SERIES[1][i][3]]
+                    SEARCH_TERMS   = [TIME_SERIES[2][i][18]]
                     response       = COMPUTE_TIME(SEARCH_TERMS)
                     #print(response)
 
@@ -2226,19 +2281,33 @@ def pub_task(i, q , v):
                     SCHEDULE_LIST            = []
                     CURRENT_SYSTEM_TIME      = datetime.fromtimestamp(datetime.timestamp(datetime.now())).strftime('%Y-%m-%d %I:%M:%S %p')
                     CURRENT_SYSTEM_TIME_TS   = round(datetime.timestamp(datetime.strptime(CURRENT_SYSTEM_TIME , "%Y-%m-%d %I:%M:%S %p")))
-                    ADVERT_START_TIME_TS     = round(datetime.timestamp(datetime.fromtimestamp(Q['EXT'])  + timedelta(seconds=Q['SKT'])+ timedelta(seconds=60)))
+                    ADVERT_START_TIME_TS     = round(datetime.timestamp(datetime.fromtimestamp(Q['EXT'])))
 
-                    if CURRENT_SYSTEM_TIME_TS > ADVERT_START_TIME_TS:
-                        TIME_DIFF = CURRENT_SYSTEM_TIME_TS - ADVERT_START_TIME_TS 
-                        ADVERT_START_TIME_TS   = ADVERT_START_TIME_TS + (CURRENT_SYSTEM_TIME_TS - ADVERT_START_TIME_TS)
-                        ADVERT_START_TIME_NTS  = datetime.fromtimestamp(ADVERT_START_TIME_TS).strftime('%Y-%m-%d %I:%M:%S %p')
+                    #TIME BLOCKING
+                    START_DATE_TS = round(datetime.timestamp(datetime.fromtimestamp(Q['EXT'])))
+                    END_DATE_TS   = START_DATE_TS + 3600
+                    ADVERT_SYSTEM_TIME   = ADVERT_START_TIME_TS+ int(Q['SKT'])
+                    if START_DATE_TS <= ADVERT_SYSTEM_TIME <= END_DATE_TS:
+
+                        if CURRENT_SYSTEM_TIME_TS > ADVERT_START_TIME_TS:
+                            TIME_DIFF = CURRENT_SYSTEM_TIME_TS - ADVERT_SYSTEM_TIME 
+                            #ADVERT_START_TIME_TS   = ADVERT_START_TIME_TS + (CURRENT_SYSTEM_TIME_TS - ADVERT_START_TIME_TS)
+                            ADVERT_START_TIME_TS   = ADVERT_START_TIME_TS + (CURRENT_SYSTEM_TIME_TS - ADVERT_START_TIME_TS)+ int(Q['SKT'])
+                            ADVERT_START_TIME_NTS  = datetime.fromtimestamp(ADVERT_START_TIME_TS).strftime('%Y-%m-%d %I:%M:%S %p')
                         
-                    if CURRENT_SYSTEM_TIME_TS < ADVERT_START_TIME_TS:
-                        ADVERT_START_TIME_TS   = ADVERT_START_TIME_TS
+                        if ADVERT_START_TIME_TS > CURRENT_SYSTEM_TIME_TS :
+                            ADVERT_START_TIME_TS   = ADVERT_START_TIME_TS+ int(Q['SKT'])
+                            ADVERT_START_TIME_NTS  = datetime.fromtimestamp(ADVERT_START_TIME_TS).strftime('%Y-%m-%d %I:%M:%S %p')
+
+                    if START_DATE_TS == ADVERT_SYSTEM_TIME: 
+                        ADVERT_START_TIME_TS   = ADVERT_START_TIME_TS + 61
                         ADVERT_START_TIME_NTS  = datetime.fromtimestamp(ADVERT_START_TIME_TS).strftime('%Y-%m-%d %I:%M:%S %p')
-                    
-                    ADVERT_STOP_TIME_TS      = round(datetime.timestamp(datetime.fromtimestamp(ADVERT_START_TIME_TS) + timedelta(seconds=int(Q['PYT']))))
+
+
+                    ADVERT_STOP_TIME_TS      = round(datetime.timestamp(datetime.fromtimestamp(ADVERT_START_TIME_TS)))
+                    #ADVERT_STOP_TIME_TS      = round(datetime.timestamp(datetime.fromtimestamp(ADVERT_START_TIME_TS) + timedelta(seconds=int(Q['PYT']))))
                     ADVERT_STOP_TIME_NTS     = datetime.fromtimestamp(ADVERT_STOP_TIME_TS).strftime('%Y-%m-%d %I:%M:%S %p')
+                    
                     #print((Q['EXT'],ADVERT_START_TIME_TS,ADVERT_STOP_TIME_TS,ADVERT_START_TIME_NTS,ADVERT_STOP_TIME_NTS))
                     SEC = datetime.strftime(datetime.strptime(ADVERT_START_TIME_NTS, "%Y-%m-%d %I:%M:%S %p"), "%S")
                     MIN = datetime.strftime(datetime.strptime(ADVERT_START_TIME_NTS, "%Y-%m-%d %I:%M:%S %p"), "%M")
@@ -2255,35 +2324,42 @@ def pub_task(i, q , v):
                         if TL == "0":
                             TL = 1
                         SCHEDULE_LIST += [TL]
+                    print(SCHEDULE_LIST)
+                    sleep(0.01)
+                    v.put({"id":str(TIME_SERIES[0][i]),"start_time":str(ADVERT_START_TIME_TS),"slot_frequency":str(TIME_SERIES[2][i][16]),"video_length":str(TIME_SERIES[2][i][11]),"end_time":str(ADVERT_STOP_TIME_TS)})
+                    '''
                     #print(SCHEDULE_LIST)
-                    if(Q['EDGE'][0] !=""):  
+                    if(Q['EDGE'][0] !=""):
+                        
                         PAYLOAD = {}
                         SCHEDULAR_PAYLOAD = {}
                         URL = Q['EDGE'][0] + '/api/edge/ads/submit'
+                        print(URL)
                         MEDI_URL = " "
+                        start_time = time.time()
                         if Q['EDGE'][1] == 'video':
-                            MEDI_URL = "/var/www/html/advert/" + Q['EDGE'][2][24:]
+                            MEDI_URL = "/var/www/html//uploads/temporary/advert/" + Q['EDGE'][2][51:]
                             PAYLOAD = {'uploaded_file': open(MEDI_URL,'rb')}
                         if Q['EDGE'][1] == 'image':
                             MEDI_URL = Q['EDGE'][2]
                             PAYLOAD = {'uploaded_file': open( MEDI_URL ,'rb')}
 
                         res = requests.post(URL, files=PAYLOAD)
-
+                        end_time = time.time()
                         if(res.ok):
-                            print(res.json)
+                            upload_time = end_time - start_time
+                            print("{},{}".format("upload_time",str(upload_time)))
+                            EDGE_URL = Q['EDGE'][0].replace("https://","")
+                            print("{},{}".format("EDGE_URL ",EDGE_URL))
+                            MEDIA_FILE=json.loads(res.text)['MEDIAFILE']
                             SCREENS = {'FULL':'1','LEFT':'1','RIGHT':'2','BOTTOM':'3','TOP-LEFT':'1','TOP-RIGHT':'2','BOTTOM-LEFT':'3','BOTTOM-RIGHT':'4'}
-                            ADVERT_METRICS    = Q['ADVERT'][10]+':'+SCHEDULE_LIST[0]+':'+SCHEDULE_LIST[1]+':'+SCHEDULE_LIST[2]+':'+SCHEDULE_LIST[3]+':'+SCHEDULE_LIST[4]+':?:127.0.0.1:'+Q['EDGE'][5]+':'+Q['EDGE'][6]+':'+Q['EDGE'][7]+':'+Q['EDGE'][8]+':'+str(Q['ADVERT'][16])+':'+Q['EDGE'][9]+':'+MEDI_URL+':'+Q['EDGE'][10]+':'+Q['EDGE'][11]+':'+Q['EDGE'][12]+':'+SCREENS[Q['EDGE'][3]]
+                            ADVERT_METRICS    = Q['ADVERT'][10]+':'+SCHEDULE_LIST[0]+':'+SCHEDULE_LIST[1]+':'+SCHEDULE_LIST[2]+':'+SCHEDULE_LIST[3]+':'+SCHEDULE_LIST[4]+':?:'+EDGE_URL+':'+Q['EDGE'][5]+':'+Q['EDGE'][6]+':'+Q['EDGE'][7]+':'+Q['EDGE'][8]+':'+str(Q['ADVERT'][16])+':'+Q['EDGE'][9]+':'+MEDIA_FILE+':'+Q['EDGE'][10]+':'+Q['EDGE'][11]+':'+Q['EDGE'][12]+':'+SCREENS[Q['EDGE'][3]]
                             SCHEDULAR_PAYLOAD = {"status":True,"query":ADVERT_METRICS}
                             print(SCHEDULAR_PAYLOAD)
                             redis_conn.publish("broadcast", json.dumps(ADVERT_METRICS))
-                            '''
-                            redis_conn.publish("broadcast", json.dumps(response))
-                            _res = requests.post(SCHEDULE_URL, json=SCHEDULAR_PAYLOAD , headers=HEADERS)
-
-                            if(_res):
-                                print("morio")  
-                            '''
+                            sleep(1)
+                            v.put({"id":str(TIME_SERIES[0][i]),"start_time":str(ADVERT_START_TIME_TS),"slot_frequency":str(TIME_SERIES[2][i][16]),"video_length":str(TIME_SERIES[2][i][11]),"end_time":str(ADVERT_STOP_TIME_TS)})
+                    '''   
                 q.task_done()
                 queueLock.release()
 
@@ -2292,10 +2368,37 @@ def pub_task(i, q , v):
                 time.sleep(1)
         except Timeout as ex:
             print("Exeption Raised ", ex)
-        
+
+def sub_task(i, v):
+    while True:
+        #vueueLock.acquire()
+        try:
+            if not v.empty():
+                Q        = v.get()
+                print(("sub task",Q))
+                ADVERT_ID                = Q['id']
+                ADVERT_SLOT_COUNT        = int(Q['slot_frequency'])*int(Q['video_length'])  
+                ADVERT_PREDICTED_TIME    = datetime.fromtimestamp(round(datetime.timestamp(datetime.fromtimestamp(int(Q['start_time']))))).strftime('%Y-%m-%d %H:%M:%S')
+                ADVERT_TERMINATION_TIME  = datetime.fromtimestamp(round(datetime.timestamp(datetime.fromtimestamp(int(Q['end_time'])) + timedelta(seconds=ADVERT_SLOT_COUNT)))).strftime('%Y-%m-%d %H:%M:%S')
+                
+                try:
+                    conn = get_db_connection()
+                    cur  = conn.cursor()  
+                    cur.execute('UPDATE advert SET advert_predicted_time = %s , advert_termination_time = %s , advert_slot_count = %s  WHERE advert_id = %s',(ADVERT_PREDICTED_TIME,ADVERT_TERMINATION_TIME,ADVERT_SLOT_COUNT,ADVERT_ID))
+                    conn.commit()
+
+                except (Exception, Error) as error:
+                    msg ="ERROR OCURRED .. CONTACT ADMIN " + str(error)
+                    print(msg)   
+        except Timeout as ex:
+            print("Exeption Raised ", ex)
+
 if __name__ == "__main__":
     #thread_exit_Flag = 1
     T1 = Thread(target=pub_task , args=(1, q, v, ))
+    T2 = Thread(target=sub_task , args=(1, v, ))
     T1.daemon = True
     T1.start()
+    T2.daemon = True
+    T2.start()
     app.run(host='0.0.0.0',port=5008,use_reloader=True)
